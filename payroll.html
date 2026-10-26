@@ -182,4 +182,29 @@
           </tr>
           <tr>
             <td>Oct 01 - Oct 15, 2026</td>
-            <td>$
+            <td>$4,500.00</td>
+            <td>-$1,079.50</td>
+            <td><strong>$3,420.50</strong></td>
+            <td><span class="status-pill">Deposited</span></td>
+            <td><a href="#" onclick="alert('Downloading paystub PDF for Oct 15...')" style="color: var(--secondary);">Download PDF</a></td>
+          </tr>
+          <tr>
+            <td>Sep 16 - Sep 30, 2026</td>
+            <td>$4,500.00</td>
+            <td>-$1,079.50</td>
+            <td><strong>$3,420.50</strong></td>
+            <td><span class="status-pill">Deposited</span></td>
+            <td><a href="#" onclick="alert('Downloading paystub PDF for Sep 30...')" style="color: var(--secondary);">Download PDF</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script>
+    function adjustSplit(val) {
+      document.getElementById('primaryPercent').value = (100 - Number(val)) + '%';
+    }
+  </script>
+</body>
+</html>
