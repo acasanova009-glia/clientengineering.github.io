@@ -1,44 +1,43 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Credit Cards - SecureBank</title>
-  <link rel="stylesheet" href="styles.css" />
   <style>
-    body { font-family: sans-serif; background: #f4f6f9; margin: 0; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f6f9; margin: 0; }
     header { background: #0b3c5d; color: white; }
-    .top-bar { display: flex; justify-content: space-between; padding: 1rem 2rem; }
+    .top-bar { display: flex; justify-content: space-between; padding: 1rem 2rem; max-width: 1200px; margin: auto; }
     nav { background: #07273d; }
-    nav ul { display: flex; list-style: none; margin: 0; padding: 0; }
-    nav a { padding: 0.9rem 1.4rem; color: #eee; text-decoration: none; display: block; }
-    nav a.active, nav a:hover { background: #328cc1; }
-    main { max-width: 1000px; margin: 2rem auto; padding: 1rem; }
-    .panel { background: white; padding: 2rem; border-radius: 8px; border-left: 5px solid #328cc1; }
-    .badge { background: #e0f2fe; color: #0369a1; padding: 0.3rem 0.6rem; border-radius: 4px; font-weight: bold; }
+    nav ul { display: flex; list-style: none; margin: 0 auto; padding: 0; max-width: 1200px; overflow-x: auto; }
+    nav a { padding: 0.9rem 1.4rem; color: #eee; text-decoration: none; display: block; white-space: nowrap; }
+    nav a.active, nav a:hover { background: #328cc1; color: white; }
+    main { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
+    .panel { background: white; padding: 2rem; border-radius: 8px; border-left: 5px solid #328cc1; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .badge { background: #e0f2fe; color: #0369a1; padding: 0.3rem 0.6rem; border-radius: 4px; font-weight: bold; margin-right: 4px; }
   </style>
   <script async src="https://api.beta.glia.com/salemove_integration.js"></script>
 </head>
 <body>
   <header>
-    <div class="top-bar"><div>🏦 SecureBank</div><div>Servicios Financieros</div></div>
+    <div class="top-bar"><div>🏦 SecureBank Online</div><div>Client Portal</div></div>
     <nav>
       <ul>
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="credit-cards.html" class="active">Tarjetas de Crédito</a></li>
-        <li><a href="payroll.html">Nómina (Payroll)</a></li>
-        <li><a href="mortgages.html">Hipotecas</a></li>
-        <li><a href="escalations.html">Escalaciones</a></li>
-        <li><a href="fraud.html">Prevención de Fraudes</a></li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="credit-cards.html" class="active">Credit Cards</a></li>
+        <li><a href="payroll.html">Payroll</a></li>
+        <li><a href="mortgages.html">Mortgages</a></li>
+        <li><a href="escalations.html">Escalaciones/Escalations</a></li>
+        <li><a href="fraud.html">Fraud</a></li>
       </ul>
     </nav>
   </header>
   <main>
     <div class="panel">
-      <h2>Cola de Atención: Credit Cards</h2>
-      <p>Canales asignados en Glia: <span class="badge">Chat</span> <span class="badge">Audio</span></p>
-      <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid #ddd;" />
-      <p>Consulta saldos, historial de transacciones y estados de cuenta.</p>
+      <h2>Queue: Credit Cards</h2>
+      <p style="margin-top: 0.5rem;">Allowed Media: <span class="badge">Chat</span> <span class="badge">Audio</span></p>
+      <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid #eee;" />
+      <p>View your balances, adjust spending limits, redeem reward points, or speak to a credit card specialist.</p>
     </div>
   </main>
 </body>
