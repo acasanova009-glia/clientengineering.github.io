@@ -3,24 +3,104 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mortgages - SecureBank</title>
+  <title>Mortgages & Home Loans - SecureBank</title>
   <style>
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f6f9; margin: 0; }
-    header { background: #0b3c5d; color: white; }
+    :root {
+      --primary: #0b3c5d;
+      --secondary: #328cc1;
+      --bg: #f4f6f9;
+      --dark: #1d2731;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background: var(--bg); color: var(--dark); line-height: 1.6; }
+    
+    header { background: var(--primary); color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
     .top-bar { display: flex; justify-content: space-between; padding: 1rem 2rem; max-width: 1200px; margin: auto; }
+    .logo { font-size: 1.4rem; font-weight: bold; }
     nav { background: #07273d; }
     nav ul { display: flex; margin: 0 auto; padding: 0; max-width: 1200px; overflow-x: auto; list-style: none; }
-    nav a { padding: 0.9rem 1.6rem; color: #eee; text-decoration: none; display: block; white-space: nowrap; }
-    nav a.active, nav a:hover { background: #328cc1; color: white; }
+    nav a { padding: 0.9rem 1.6rem; color: #eee; text-decoration: none; display: block; white-space: nowrap; font-weight: 500; }
+    nav a.active, nav a:hover { background: var(--secondary); color: white; }
+
     main { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
-    .panel { background: white; padding: 2rem; border-radius: 8px; border-left: 5px solid #328cc1; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-    .badge { background: #e0f2fe; color: #0369a1; padding: 0.3rem 0.6rem; border-radius: 4px; font-weight: bold; margin-right: 4px; }
+
+    /* Mortgage Calculator Layout */
+    .calculator-container {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 2rem;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      margin-bottom: 2.5rem;
+    }
+    .form-group { margin-bottom: 1.2rem; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 0.4rem; font-size: 0.9rem; }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    .payment-summary {
+      background: #eef5fb;
+      padding: 2rem;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+    .monthly-payment {
+      font-size: 2.8rem;
+      font-weight: bold;
+      color: var(--primary);
+      margin: 0.5rem 0 1.5rem;
+    }
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      font-size: 0.95rem;
+    }
+
+    /* Rate Comparison Table */
+    .rate-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    th, td { text-align: left; padding: 1rem; border-bottom: 1px solid #eee; }
+    th { background: #fafafa; color: #555; }
+    .apply-btn {
+      background: var(--primary);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .apply-btn:hover { background: var(--secondary); }
+
+    @media (max-width: 850px) {
+      .calculator-container { grid-template-columns: 1fr; }
+    }
   </style>
   <script async src="https://api.beta.glia.com/salemove_integration.js"></script>
 </head>
 <body>
+
   <header>
-    <div class="top-bar"><div>🏦 SecureBank Online</div><div>Client Portal</div></div>
+    <div class="top-bar">
+      <div class="logo">🏦 SecureBank Online</div>
+      <div>Mortgage Lending Division</div>
+    </div>
     <nav>
       <ul>
         <li><a href="index.html">Home</a></li>
@@ -30,13 +110,136 @@
       </ul>
     </nav>
   </header>
+
   <main>
-    <div class="panel">
-      <h2>Queue: Mortgages</h2>
-      <p style="margin-top: 0.5rem;">Allowed Media: <span class="badge">Chat</span> <span class="badge">Audio</span></p>
-      <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid #eee;" />
-      <p>Explore interest rates, apply for pre-approval, or request personalized mortgage advice.</p>
+    <h1 style="margin-bottom: 0.5rem;">Home Loan & Mortgage Center</h1>
+    <p style="color: #666; margin-bottom: 2rem;">Estimate your monthly principal, interest, taxes, and insurance with real-time calculations.</p>
+
+    <!-- Interactive Mortgage Calculator -->
+    <div class="calculator-container">
+      <div>
+        <h3>Payment Estimator</h3>
+        <hr style="margin: 1rem 0; border: 0; border-top: 1px solid #eee;" />
+
+        <div class="form-group">
+          <label for="homePrice">Home Price ($)</label>
+          <input type="number" id="homePrice" value="450000" oninput="calculateMortgage()">
+        </div>
+
+        <div class="form-group">
+          <label for="downPayment">Down Payment ($)</label>
+          <input type="number" id="downPayment" value="90000" oninput="calculateMortgage()">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label for="interestRate">Interest Rate (%)</label>
+            <input type="number" id="interestRate" step="0.1" value="6.5" oninput="calculateMortgage()">
+          </div>
+
+          <div class="form-group">
+            <label for="loanTerm">Loan Term</label>
+            <select id="loanTerm" onchange="calculateMortgage()">
+              <option value="30">30-Year Fixed</option>
+              <option value="15">15-Year Fixed</option>
+              <option value="20">20-Year Fixed</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="payment-summary">
+        <span style="font-size: 0.95rem; color: #555; text-transform: uppercase;">Estimated Monthly Payment</span>
+        <div class="monthly-payment" id="totalPayment">$2,275</div>
+
+        <div class="breakdown-row">
+          <span>Principal & Interest</span>
+          <strong id="piBreakdown">$2,275</strong>
+        </div>
+        <div class="breakdown-row">
+          <span>Est. Property Taxes</span>
+          <span>$280 / mo</span>
+        </div>
+        <div class="breakdown-row">
+          <span>Homeowners Insurance</span>
+          <span>$110 / mo</span>
+        </div>
+
+        <button class="apply-btn" style="margin-top: 1.5rem; padding: 0.8rem; font-size: 1rem;" onclick="alert('Pre-qualification application started!')">Get Pre-Approved</button>
+      </div>
+    </div>
+
+    <!-- Live Mortgage Rates -->
+    <div class="rate-card">
+      <h3>Today's Featured Mortgage Rates</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Interest Rate</th>
+            <th>APR</th>
+            <th>Points</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>30-Year Fixed Conforming</strong></td>
+            <td>6.500%</td>
+            <td>6.612%</td>
+            <td>0.25</td>
+            <td><a href="#" class="apply-btn" onclick="alert('Locking 30-Year rate...')">Lock Rate</a></td>
+          </tr>
+          <tr>
+            <td><strong>15-Year Fixed Conforming</strong></td>
+            <td>5.875%</td>
+            <td>5.980%</td>
+            <td>0.12</td>
+            <td><a href="#" class="apply-btn" onclick="alert('Locking 15-Year rate...')">Lock Rate</a></td>
+          </tr>
+          <tr>
+            <td><strong>5/1 ARM (Adjustable)</strong></td>
+            <td>6.125%</td>
+            <td>6.850%</td>
+            <td>0.00</td>
+            <td><a href="#" class="apply-btn" onclick="alert('Locking ARM rate...')">Lock Rate</a></td>
+          </tr>
+          <tr>
+            <td><strong>VA 30-Year Fixed</strong></td>
+            <td>6.125%</td>
+            <td>6.320%</td>
+            <td>0.00</td>
+            <td><a href="#" class="apply-btn" onclick="alert('Locking VA loan rate...')">Lock Rate</a></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </main>
+
+  <script>
+    function calculateMortgage() {
+      const price = parseFloat(document.getElementById('homePrice').value) || 0;
+      const down = parseFloat(document.getElementById('downPayment').value) || 0;
+      const rate = parseFloat(document.getElementById('interestRate').value) || 0;
+      const years = parseInt(document.getElementById('loanTerm').value) || 30;
+
+      const principal = Math.max(0, price - down);
+      const monthlyRate = (rate / 100) / 12;
+      const numberOfPayments = years * 12;
+
+      let monthlyPayment = 0;
+      if (monthlyRate > 0 && principal > 0) {
+        monthlyPayment = principal * (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) / (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+      } else if (principal > 0) {
+        monthlyPayment = principal / numberOfPayments;
+      }
+
+      const formatted = '$' + Math.round(monthlyPayment).toLocaleString();
+      document.getElementById('totalPayment').innerText = formatted;
+      document.getElementById('piBreakdown').innerText = formatted;
+    }
+
+    calculateMortgage();
+  </script>
 </body>
 </html>

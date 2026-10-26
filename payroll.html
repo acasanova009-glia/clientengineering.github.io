@@ -3,24 +3,100 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Payroll - SecureBank</title>
+  <title>Payroll Portal - SecureBank</title>
   <style>
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f6f9; margin: 0; }
-    header { background: #0b3c5d; color: white; }
+    :root {
+      --primary: #0b3c5d;
+      --secondary: #328cc1;
+      --bg: #f4f6f9;
+      --dark: #1d2731;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background: var(--bg); color: var(--dark); line-height: 1.6; }
+    
+    header { background: var(--primary); color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
     .top-bar { display: flex; justify-content: space-between; padding: 1rem 2rem; max-width: 1200px; margin: auto; }
+    .logo { font-size: 1.4rem; font-weight: bold; }
     nav { background: #07273d; }
     nav ul { display: flex; margin: 0 auto; padding: 0; max-width: 1200px; overflow-x: auto; list-style: none; }
-    nav a { padding: 0.9rem 1.6rem; color: #eee; text-decoration: none; display: block; white-space: nowrap; }
-    nav a.active, nav a:hover { background: #328cc1; color: white; }
+    nav a { padding: 0.9rem 1.6rem; color: #eee; text-decoration: none; display: block; white-space: nowrap; font-weight: 500; }
+    nav a.active, nav a:hover { background: var(--secondary); color: white; }
+
     main { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
-    .panel { background: white; padding: 2rem; border-radius: 8px; border-left: 5px solid #328cc1; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-    .badge { background: #e0f2fe; color: #0369a1; padding: 0.3rem 0.6rem; border-radius: 4px; font-weight: bold; margin-right: 4px; }
+
+    /* Dashboard Widgets */
+    .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+    .metric-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      border-left: 4px solid var(--secondary);
+    }
+    .metric-card span { font-size: 0.85rem; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
+    .metric-card h2 { font-size: 1.8rem; margin-top: 0.5rem; color: var(--primary); }
+
+    /* Paystub Table */
+    .section-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      margin-bottom: 2rem;
+    }
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    th, td { text-align: left; padding: 1rem; border-bottom: 1px solid #eee; }
+    th { background: #fafafa; color: #555; font-size: 0.9rem; }
+    .status-pill {
+      background: #e6f4ea;
+      color: #137333;
+      padding: 0.3rem 0.7rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    /* Direct Deposit Tool */
+    .deposit-tool {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      background: #eef5fb;
+      padding: 1.5rem;
+      border-radius: 8px;
+    }
+    .input-group label { display: block; font-weight: 600; margin-bottom: 0.4rem; font-size: 0.9rem; }
+    .input-group input, .input-group select {
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .btn-action {
+      background: var(--primary);
+      color: white;
+      padding: 0.8rem 1.4rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    .btn-action:hover { background: var(--secondary); }
+
+    @media (max-width: 768px) {
+      .deposit-tool { grid-template-columns: 1fr; }
+    }
   </style>
   <script async src="https://api.beta.glia.com/salemove_integration.js"></script>
 </head>
 <body>
+
   <header>
-    <div class="top-bar"><div>🏦 SecureBank Online</div><div>Client Portal</div></div>
+    <div class="top-bar">
+      <div class="logo">🏦 SecureBank Online</div>
+      <div>Corporate & Employee Services</div>
+    </div>
     <nav>
       <ul>
         <li><a href="index.html">Home</a></li>
@@ -30,13 +106,80 @@
       </ul>
     </nav>
   </header>
+
   <main>
-    <div class="panel">
-      <h2>Queue: Payroll</h2>
-      <p style="margin-top: 0.5rem;">Allowed Media: <span class="badge">Chat</span> <span class="badge">Audio</span></p>
-      <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid #eee;" />
-      <p>Manage corporate payroll distribution, salary accounts, and automated direct payments.</p>
+    <h1 style="margin-bottom: 1.5rem;">Payroll Management & Direct Deposits</h1>
+
+    <!-- KPI Summary Cards -->
+    <div class="dashboard-grid">
+      <div class="metric-card">
+        <span>Next Pay Date</span>
+        <h2>Nov 15, 2026</h2>
+        <small style="color: #27ae60;">Direct Deposit Scheduled</small>
+      </div>
+      <div class="metric-card">
+        <span>Last Net Pay</span>
+        <h2>$3,420.50</h2>
+        <small style="color: #666;">Disbursed on Oct 31, 2026</small>
+      </div>
+      <div class="metric-card">
+        <span>Year-to-Date (YTD) Gross</span>
+        <h2>$78,200.00</h2>
+        <small style="color: #666;">21 Pay Periods Processed</small>
+      </div>
+      <div class="metric-card">
+        <span>Tax Withholdings (YTD)</span>
+        <h2>$16,850.00</h2>
+        <small style="color: #666;">Federal + State</small>
+      </div>
     </div>
-  </main>
-</body>
-</html>
+
+    <!-- Interactive Direct Deposit Splitter -->
+    <div class="section-card">
+      <h2>Configure Direct Deposit Split</h2>
+      <p style="color: #666; margin-bottom: 1.5rem;">Automate your savings by sending a percentage of each paycheck to secondary checking or high-yield savings accounts.</p>
+      
+      <div class="deposit-tool">
+        <div class="input-group">
+          <label>Primary Account (Checking ••••4390)</label>
+          <input type="text" id="primaryPercent" value="80%" readonly>
+        </div>
+        <div class="input-group">
+          <label>Secondary Account (Savings ••••9102)</label>
+          <select id="splitSelect" onchange="adjustSplit(this.value)">
+            <option value="20">Split 20% to High-Yield Savings</option>
+            <option value="30">Split 30% to High-Yield Savings</option>
+            <option value="10">Split 10% to High-Yield Savings</option>
+            <option value="0">Send 100% to Primary Checking</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn-action" onclick="alert('Direct Deposit allocations updated successfully!')">Save Preferences</button>
+    </div>
+
+    <!-- Recent Paystubs History -->
+    <div class="section-card">
+      <h2>Recent Paystubs</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Pay Period</th>
+            <th>Gross Pay</th>
+            <th>Taxes & Deductions</th>
+            <th>Net Take-Home</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Oct 16 - Oct 31, 2026</td>
+            <td>$4,500.00</td>
+            <td>-$1,079.50</td>
+            <td><strong>$3,420.50</strong></td>
+            <td><span class="status-pill">Deposited</span></td>
+            <td><a href="#" onclick="alert('Downloading paystub PDF for Oct 31...')" style="color: var(--secondary);">Download PDF</a></td>
+          </tr>
+          <tr>
+            <td>Oct 01 - Oct 15, 2026</td>
+            <td>$

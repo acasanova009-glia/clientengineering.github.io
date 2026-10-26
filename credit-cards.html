@@ -5,22 +5,120 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Credit Cards - SecureBank</title>
   <style>
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f6f9; margin: 0; }
-    header { background: #0b3c5d; color: white; }
+    :root {
+      --primary: #0b3c5d;
+      --secondary: #328cc1;
+      --accent: #d9b310;
+      --bg: #f4f6f9;
+      --dark: #1d2731;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background: var(--bg); color: var(--dark); line-height: 1.6; }
+    
+    header { background: var(--primary); color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
     .top-bar { display: flex; justify-content: space-between; padding: 1rem 2rem; max-width: 1200px; margin: auto; }
+    .logo { font-size: 1.4rem; font-weight: bold; }
     nav { background: #07273d; }
-    nav ul { display: flex; list-style: border; margin: 0 auto; padding: 0; max-width: 1200px; overflow-x: auto; list-style: none; }
-    nav a { padding: 0.9rem 1.6rem; color: #eee; text-decoration: none; display: block; white-space: nowrap; }
-    nav a.active, nav a:hover { background: #328cc1; color: white; }
+    nav ul { display: flex; margin: 0 auto; padding: 0; max-width: 1200px; overflow-x: auto; list-style: none; }
+    nav a { padding: 0.9rem 1.6rem; color: #eee; text-decoration: none; display: block; white-space: nowrap; font-weight: 500; }
+    nav a.active, nav a:hover { background: var(--secondary); color: white; }
+
     main { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
-    .panel { background: white; padding: 2rem; border-radius: 8px; border-left: 5px solid #328cc1; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-    .badge { background: #e0f2fe; color: #0369a1; padding: 0.3rem 0.6rem; border-radius: 4px; font-weight: bold; margin-right: 4px; }
+    
+    /* Layout */
+    .hero-split { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 2rem; align-items: center; margin-bottom: 2.5rem; }
+    
+    /* Virtual Card */
+    .card-preview {
+      background: linear-gradient(135deg, #0b3c5d 0%, #1d2731 100%);
+      color: white;
+      border-radius: 16px;
+      padding: 1.8rem;
+      height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      border: 1px solid rgba(255,255,255,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    .card-preview::after {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 180px;
+      height: 180px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+    .chip { width: 45px; height: 32px; background: #d9b310; border-radius: 6px; }
+    .card-num { font-size: 1.2rem; letter-spacing: 3px; font-family: monospace; }
+    .card-footer { display: flex; justify-content: space-between; font-size: 0.85rem; text-transform: uppercase; }
+
+    /* Interactive Calculator */
+    .interactive-box {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      margin-bottom: 2.5rem;
+    }
+    .slider-group { margin: 1.5rem 0; }
+    .slider-group input { width: 100%; height: 8px; border-radius: 4px; accent-color: var(--secondary); cursor: pointer; }
+    .reward-calc-result {
+      background: #eef5fb;
+      padding: 1.2rem;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .reward-amount { font-size: 1.6rem; color: #0b3c5d; font-weight: bold; }
+
+    /* Card Comparison Grid */
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .tier-card {
+      background: white;
+      padding: 1.8rem;
+      border-radius: 10px;
+      border-top: 5px solid var(--secondary);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      position: relative;
+    }
+    .tier-card.featured { border-top-color: var(--accent); }
+    .tier-price { font-size: 2rem; font-weight: bold; margin: 1rem 0; }
+    .tier-features { list-style: none; margin-bottom: 1.5rem; }
+    .tier-features li { padding: 0.4rem 0; border-bottom: 1px solid #f0f0f0; }
+    .btn {
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+      padding: 0.8rem;
+      border-radius: 6px;
+      border: none;
+      background: var(--primary);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn:hover { background: var(--secondary); }
+
+    @media (max-width: 768px) {
+      .hero-split { grid-template-columns: 1fr; }
+    }
   </style>
   <script async src="https://api.beta.glia.com/salemove_integration.js"></script>
 </head>
 <body>
+
   <header>
-    <div class="top-bar"><div>🏦 SecureBank Online</div><div>Client Portal</div></div>
+    <div class="top-bar">
+      <div class="logo">🏦 SecureBank Online</div>
+      <div>Personal Banking</div>
+    </div>
     <nav>
       <ul>
         <li><a href="index.html">Home</a></li>
@@ -30,13 +128,102 @@
       </ul>
     </nav>
   </header>
+
   <main>
-    <div class="panel">
-      <h2>Queue: Credit Cards</h2>
-      <p style="margin-top: 0.5rem;">Allowed Media: <span class="badge">Chat</span> <span class="badge">Audio</span></p>
-      <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid #eee;" />
-      <p>View your balances, adjust spending limits, redeem reward points, or speak with an agent via Glia.</p>
+    <section class="hero-split">
+      <div>
+        <h1>Upgrade Your Spending Power</h1>
+        <p style="margin: 1rem 0 1.5rem; color: #555;">
+          Earn up to 5% cash back on dining and travel with zero foreign transaction fees. 
+          Instantly lock or freeze lost cards right from your digital wallet.
+        </p>
+        <button class="btn" style="width: auto; padding: 0.8rem 2rem;" onclick="alert('Instant application simulation started!')">Apply in 2 Minutes</button>
+      </div>
+
+      <div class="card-preview">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-weight: 600; font-size: 1.1rem;">SecureBank Black</span>
+          <span style="font-size: 0.9rem; opacity: 0.8;">Contactless 📶</span>
+        </div>
+        <div class="chip"></div>
+        <div class="card-num">•••• •••• •••• 8842</div>
+        <div class="card-footer">
+          <div>Valued Member<br><strong>ALEX M. RIVERA</strong></div>
+          <div>Expires<br><strong>11/29</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cash Back Interactive Widget -->
+    <section class="interactive-box">
+      <h2>Cashback & Rewards Estimator</h2>
+      <p style="color: #666;">Drag the slider to see how much cash back you could rack up every year on everyday spending.</p>
+      
+      <div class="slider-group">
+        <label for="spendRange">Estimated Monthly Spend: <strong id="spendValue">$2,500</strong></label>
+        <input type="range" id="spendRange" min="500" max="10000" step="250" value="2500" oninput="updateRewards(this.value)">
+      </div>
+
+      <div class="reward-calc-result">
+        <div>
+          <span>Estimated Annual Value</span>
+          <div class="reward-amount" id="annualCashback">$750 / yr</div>
+        </div>
+        <span style="background: #27ae60; color: white; padding: 0.4rem 0.8rem; border-radius: 20px; font-weight: bold; font-size: 0.85rem;">3% Flat Rate Average</span>
+      </div>
+    </section>
+
+    <!-- Card Comparisons -->
+    <h2 style="margin-bottom: 1.5rem;">Choose the Card That Fits Your Lifestyle</h2>
+    <div class="card-grid">
+      <div class="tier-card">
+        <h3>Cash Preferred</h3>
+        <p style="color: #666;">Daily errands & essentials</p>
+        <div class="tier-price">$0 <span style="font-size: 0.9rem; font-weight: normal; color: #777;">Annual Fee</span></div>
+        <ul class="tier-features">
+          <li>✔ 3% Cash back on groceries</li>
+          <li>✔ 1.5% Unlimited on all purchases</li>
+          <li>✔ $200 Welcome bonus after $1,000 spend</li>
+          <li>✔ 0% Intro APR for 15 months</li>
+        </ul>
+        <button class="btn" onclick="alert('Selected Cash Preferred')">Select Card</button>
+      </div>
+
+      <div class="tier-card featured">
+        <span style="position: absolute; top: -12px; right: 20px; background: var(--accent); color: #1d2731; padding: 2px 10px; font-size: 0.75rem; font-weight: bold; border-radius: 4px;">MOST POPULAR</span>
+        <h3>Voyager Sapphire</h3>
+        <p style="color: #666;">Frequent travelers & dining</p>
+        <div class="tier-price">$95 <span style="font-size: 0.9rem; font-weight: normal; color: #777;">Annual Fee</span></div>
+        <ul class="tier-features">
+          <li>✔ 5x Points on flights & hotels</li>
+          <li>✔ 3x Points on dining worldwide</li>
+          <li>✔ Global Entry / TSA PreCheck Credit</li>
+          <li>✔ $0 Foreign Transaction Fees</li>
+        </ul>
+        <button class="btn" style="background: var(--accent); color: #111;" onclick="alert('Selected Voyager Sapphire')">Select Card</button>
+      </div>
+
+      <div class="tier-card">
+        <h3>Prestige Reserve</h3>
+        <p style="color: #666;">Premium luxury perks & concierge</p>
+        <div class="tier-price">$450 <span style="font-size: 0.9rem; font-weight: normal; color: #777;">Annual Fee</span></div>
+        <ul class="tier-features">
+          <li>✔ Unlimited VIP Airport Lounge Access</li>
+          <li>✔ $300 Annual Travel Credit</li>
+          <li>✔ 24/7 Dedicated Concierge Desk</li>
+          <li>✔ Primary Rental Car Insurance</li>
+        </ul>
+        <button class="btn" onclick="alert('Selected Prestige Reserve')">Select Card</button>
+      </div>
     </div>
   </main>
+
+  <script>
+    function updateRewards(val) {
+      document.getElementById('spendValue').innerText = '$' + Number(val).toLocaleString();
+      const annual = (val * 12 * 0.03).toFixed(0);
+      document.getElementById('annualCashback').innerText = '$' + Number(annual).toLocaleString() + ' / yr';
+    }
+  </script>
 </body>
 </html>
