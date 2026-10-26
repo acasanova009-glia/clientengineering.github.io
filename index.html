@@ -1,24 +1,182 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <script async src="https://api.beta.glia.com/salemove_integration.js"></script>
-  <title>CE Testing Site</title>
-  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-    <style>
-    h1  {color:#7C19DD;}
-    h1  {font-family:roboto;}
-    img {
-      width:50%;
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Banca Digital - Inicio</title>
+  
+  <!-- Estilos base modernos y responsivos -->
+  <style>
+    :root {
+      --primary-color: #0b3c5d;
+      --secondary-color: #328cc1;
+      --accent-color: #d9b310;
+      --bg-color: #f4f6f9;
+      --text-color: #1d2731;
     }
-    </style>
 
-  </head>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-  <body>
-    <center>
-      <img src="images/Full LOGO_black.png" alt="CE logo" style="width:750px">
-    </center>
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
 
-    <h1 style="text-align:center;">Welcome to our testing site! by Alfonso</h1>
-  </body>
+    /* Banner Superior y Navegación */
+    header {
+      background-color: var(--primary-color);
+      color: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    nav {
+      background-color: #07273d;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      max-width: 1200px;
+      margin: auto;
+      overflow-x: auto;
+    }
+
+    nav ul li a {
+      display: block;
+      padding: 0.9rem 1.4rem;
+      color: #e0e6ed;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: background 0.2s ease, color 0.2s ease;
+      white-space: nowrap;
+    }
+
+    nav ul li a:hover,
+    nav ul li a.active {
+      background-color: var(--secondary-color);
+      color: white;
+    }
+
+    /* Contenido */
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .hero-card {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      margin-bottom: 2rem;
+    }
+
+    .queue-info-card {
+      background: #eef5fb;
+      border-left: 5px solid var(--secondary-color);
+      padding: 1.2rem;
+      border-radius: 4px;
+      margin-top: 1.5rem;
+    }
+
+    .grid-sections {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .grid-item {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      text-decoration: none;
+      color: inherit;
+      border-top: 4px solid var(--primary-color);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .grid-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+    }
+  </style>
+
+  <!-- Glia / SaleMove Integration Widget -->
+  <script async src="https://api.beta.glia.com/salemove_integration.js"></script>
+</head>
+<body>
+
+  <!-- Banner Superior -->
+  <header>
+    <div class="top-bar">
+      <div class="logo">🏦 SecureBank Online</div>
+      <div>Portal de Clientes</div>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html" class="active">Inicio</a></li>
+        <li><a href="credit-cards.html">Tarjetas de Crédito</a></li>
+        <li><a href="payroll.html">Nómina (Payroll)</a></li>
+        <li><a href="mortgages.html">Hipotecas</a></li>
+        <li><a href="escalations.html">Escalaciones</a></li>
+        <li><a href="fraud.html">Prevención de Fraudes</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero-card">
+      <h1>Bienvenido al portal bancario</h1>
+      <p>Selecciona una sección en el menú para gestionar tus servicios o iniciar contacto con un agente especializado a través del widget de atención en vivo.</p>
+    </div>
+
+    <div class="grid-sections">
+      <a class="grid-item" href="credit-cards.html">
+        <h3>💳 Credit Cards</h3>
+        <p>Gestión de tarjetas, límites y pagos.</p>
+      </a>
+      <a class="grid-item" href="payroll.html">
+        <h3>💼 Payroll</h3>
+        <p>Abonos de empresa y dispersión de sueldo.</p>
+      </a>
+      <a class="grid-item" href="mortgages.html">
+        <h3>🏠 Mortgages</h3>
+        <p>Financiamiento hipotecario y amortizaciones.</p>
+      </a>
+      <a class="grid-item" href="escalations.html">
+        <h3>⚠️ Escalations</h3>
+        <p>Casos especiales y atención de nivel superior.</p>
+      </a>
+      <a class="grid-item" href="fraud.html">
+        <h3>🛡️ Fraud</h3>
+        <p>Reportes de movimientos sospechosos y bloqueo.</p>
+      </a>
+    </div>
+  </main>
+
+</body>
 </html>

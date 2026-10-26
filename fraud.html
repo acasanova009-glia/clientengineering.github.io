@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fraud Prevention - SecureBank</title>
+  <style>
+    body { font-family: sans-serif; background: #f4f6f9; margin: 0; }
+    header { background: #0b3c5d; color: white; }
+    .top-bar { display: flex; justify-content: space-between; padding: 1rem 2rem; }
+    nav { background: #07273d; }
+    nav ul { display: flex; list-style: none; margin: 0; padding: 0; }
+    nav a { padding: 0.9rem 1.4rem; color: #eee; text-decoration: none; display: block; }
+    nav a.active, nav a:hover { background: #328cc1; }
+    main { max-width: 1000px; margin: 2rem auto; padding: 1rem; }
+    .panel { background: white; padding: 2rem; border-radius: 8px; border-left: 5px solid #e74c3c; }
+    .badge { background: #fee2e2; color: #b91c1c; padding: 0.3rem 0.6rem; border-radius: 4px; font-weight: bold; margin-right: 4px; }
+  </style>
+  <script async src="https://api.beta.glia.com/salemove_integration.js"></script>
+</head>
+<body>
+  <header>
+    <div class="top-bar"><div>🏦 SecureBank</div><div>Servicios Financieros</div></div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="credit-cards.html">Tarjetas de Crédito</a></li>
+        <li><a href="payroll.html">Nómina (Payroll)</a></li>
+        <li><a href="mortgages.html">Hipotecas</a></li>
+        <li><a href="escalations.html">Escalaciones</a></li>
+        <li><a href="fraud.html" class="active">Prevención de Fraudes</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <div class="panel">
+      <h2>Cola de Atención: Fraud</h2>
+      <p>Canales asignados en Glia: <span class="badge">Chat</span> <span class="badge">Audio</span> <span class="badge">Video</span> <span class="badge">Phone</span></p>
+      <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid #ddd;" />
+      <p>Reporte inmediato de cargos no reconocidos, clonación de plásticos y actividad inusual.</p>
+    </div>
+  </main>
+</body>
+</html>
