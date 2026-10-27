@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Banking - FAQ & Blog</title>
+  
+  <style>
+    :root {
+      --primary-color: #0b3c5d;
+      --secondary-color: #328cc1;
+      --bg-color: #f4f6f9;
+      --text-color: #1d2731;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    /* Top Banner & Navigation */
+    header {
+      background-color: var(--primary-color);
+      color: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    nav {
+      background-color: #07273d;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      max-width: 1200px;
+      margin: auto;
+      overflow-x: auto;
+    }
+
+    nav ul li a {
+      display: block;
+      padding: 0.9rem 1.6rem;
+      color: #e0e6ed;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: background 0.2s ease, color 0.2s ease;
+      white-space: nowrap;
+    }
+
+    nav ul li a:hover,
+    nav ul li a.active {
+      background-color: var(--secondary-color);
+      color: white;
+    }
+
+    /* Main Content */
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .page-title {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      margin-bottom: 2rem;
+    }
+
+    .layout-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .layout-columns {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .section-box {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      border-top: 4px solid var(--primary-color);
+    }
+
+    .section-box h2 {
+      color: var(--primary-color);
+      margin-bottom: 1.25rem;
+      font-size: 1.35rem;
+    }
+
+    /* FAQ Collapsible Elements */
+    details {
+      border: 1px solid #e0e6ed;
+      border-radius: 6px;
+      padding: 0.8rem 1rem;
+      margin-bottom: 0.75rem;
+      background: #fafbfd;
+      transition: background 0.2s ease;
+    }
+
+    details[open] {
+      background: #ffffff;
+      border-color: var(--secondary-color);
+    }
+
+    summary {
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--primary-color);
+      outline: none;
+    }
+
+    details p {
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+      color: #4a5568;
+    }
+
+    /* Blog Cards */
+    .blog-item {
+      border-bottom: 1px solid #e0e6ed;
+      padding-bottom: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .blog-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+
+    .blog-date {
+      font-size: 0.8rem;
+      color: #718096;
+      margin-bottom: 0.25rem;
+    }
+
+    .blog-item h3 {
+      font-size: 1.05rem;
+      color: var(--primary-color);
+      margin-bottom: 0.35rem;
+    }
+
+    .blog-item p {
+      font-size: 0.92rem;
+      color: #4a5568;
+    }
+  </style>
+
+  <!-- Glia Integration Script -->
+  <script async src="https://api.beta.glia.com/salemove_integration.js"></script>
+</head>
+<body>
+
+  <!-- Top Banner -->
+  <header>
+    <div class="top-bar">
+      <div class="logo">🏦 SecureBank Online</div>
+      <div>Client Portal</div>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="credit-cards.html">Credit Cards</a></li>
+        <li><a href="payroll.html">Payroll</a></li>
+        <li><a href="mortgages.html">Mortgages</a></li>
+        <li><a href="faq-blog.html" class="active">FAQ & Blog</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="page-title">
+      <h1>Knowledge Hub: FAQ & Insights</h1>
+      <p>Find answers to common account questions or read through our latest updates and financial guides.</p>
+    </div>
+
+    <div class="layout-columns">
+      <!-- FAQ Section -->
+      <section class="section-box">
+        <h2>Frequently Asked Questions</h2>
+
+        <details>
+          <summary>How do I reset my portal password?</summary>
+          <p>Click "Forgot Password" on the login screen and enter your registered email address to receive a secure verification link.</p>
+        </details>
+
+        <details>
+          <summary>When are payroll deposits processed?</summary>
+          <p>Direct deposits are batched daily at 6:00 PM EST and typically post to recipient accounts by the following business morning.</p>
+        </details>
+
+        <details>
+          <summary>How can I request a credit line increase?</summary>
+          <p>Navigate to the Credit Cards portal, choose your card, and select "Request Limit Review" under Account Settings.</p>
+        </details>
+
+        <details>
+          <summary>Are mortgage consultations free?</summary>
+          <p>Yes. Our loan specialists provide complimentary preliminary assessments and amortization estimates.</p>
+        </details>
+      </section>
+
+      <!-- Blog Section -->
+      <section class="section-box">
+        <h2>Latest Banking Updates</h2>
+
+        <article class="blog-item">
+          <div class="blog-date">March 28, 2026</div>
+          <h3>5 Security Practices to Protect Your Business Account</h3>
+          <p>Learn how hardware security keys and granular role permissions keep your treasury management workflow safe.</p>
+        </article>
+
+        <article class="blog-item">
+          <div class="blog-date">March 14, 2026</div>
+          <h3>Navigating Mortgage Rate Trends This Quarter</h3>
+          <p>A breakdown of fixed vs. variable rates and how market movements affect current refinancing opportunities.</p>
+        </article>
+
+        <article class="blog-item">
+          <div class="blog-date">February 22, 2026</div>
+          <h3>Upcoming Automated Tax Filing Features</h3>
+          <p>We are integrating automatic 1099 and W-2 summary generation directly inside your payroll management panel.</p>
+        </article>
+      </section>
+    </div>
+  </main>
+
+</body>
+</html>
