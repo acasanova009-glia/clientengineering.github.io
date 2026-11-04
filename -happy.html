@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Credit Cards - SecureBank</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      line-height: 1.5;
+      max-width: 650px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      color: #222;
+    }
+    nav a { margin-right: 1rem; }
+    ul { padding-left: 1.2rem; }
+    .card-option {
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>SecureBank Online</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="credit-cards.html"><strong>Credit Cards</strong></a>
+      <a href="payroll.html">Payroll</a>
+      <a href="mortgages.html">Mortgages</a>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <h2>Upgrade Your Spending Power</h2>
+      <p>Earn up to 5% cash back on dining and travel with zero foreign transaction fees.</p>
+      <button onclick="alert('Instant application simulation started!')">Apply Now</button>
+    </section>
+
+    <hr style="margin: 2rem 0; border: none; border-top: 1px solid #eee;" />
+
+    <section>
+      <h2>Available Cards</h2>
+
+      <div class="card-option">
+        <h3>Cash Preferred</h3>
+        <p><strong>$0 Annual Fee</strong> — Best for daily errands &amp; essentials</p>
+        <ul>
+          <li>3% cash back on groceries</li>
+          <li>1.5% unlimited cash back on all purchases</li>
+          <li>$200 welcome bonus</li>
+        </ul>
+        <button onclick="alert('Selected Cash Preferred')">Select Card</button>
+      </div>
+
+      <div class="card-option">
+        <h3>Voyager Sapphire (Popular)</h3>
+        <p><strong>$95 Annual Fee</strong> — Best for travel &amp; dining</p>
+        <ul>
+          <li>5x points on flights &amp; hotels</li>
+          <li>3x points on dining worldwide</li>
+          <li>$0 foreign transaction fees</li>
+        </ul>
+        <button onclick="alert('Selected Voyager Sapphire')">Select Card</button>
+      </div>
+
+      <div class="card-option">
+        <h3>Prestige Reserve</h3>
+        <p><strong>$450 Annual Fee</strong> — Best for premium luxury perks</p>
+        <ul>
+          <li>Unlimited VIP airport lounge access</li>
+          <li>$300 annual travel credit</li>
+          <li>24/7 dedicated concierge</li>
+        </ul>
+        <button onclick="alert('Selected Prestige Reserve')">Select Card</button>
+      </div>
+    </section>
+  </main>
+
+</body>
+</html>
