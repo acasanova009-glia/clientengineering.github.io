@@ -1,21 +1,129 @@
+<!DOCTYPE html>
 <html>
-  <head>
-    <script type="text/javascript" src="//libs.glia.com/axon.js"></script>
-  </head>
+<head>
+  <script type="text/javascript" src="//libs.glia.com/axon.js"></script>
+  <style>
+    body { font-family: sans-serif; padding: 12px; margin: 0; }
+    p { margin: 6px 0; font-size: 13px; }
+    button { 
+      width: 100%; 
+      padding: 10px; 
+      margin-top: 8px; 
+      cursor: pointer; 
+      background: #0070d2; 
+      color: #fff; 
+      border: none; 
+      border-radius: 4px;
+      font-weight: bold;
+    }
+    button:active { background: #005fb2; }
+    .status-msg {
+      margin-top: 6px;
+      font-size: 11px;
+      color: #0070d2;
+      font-style: italic;
+      min-height: 14px;
+    }
+    #result { 
+      margin-top: 8px; 
+      padding: 10px; 
+      border-radius: 4px; 
+      font-size: 13px; 
+      background: #f4f4f4;
+      border: 1px solid #ddd;
+      word-break: break-word;
+    }
+  </style>
+</head>
+<body>
+  <p><strong>Visitor ID:</strong> <span id="visitor-external-id">-</span></p>
+  <p><strong>Last Message:</strong> <span id="last-message">-</span></p>
+  
+  <button id="call-api-btn">Call API</button>
+  <div id="click-status" class="status-msg"></div>
+
+  <div id="result">Ready</div>
 
   <script>
-    function setExternalId(visitor) {
-      document.getElementById('visitor-external-id').innerHTML =
-        visitor.customAttributes.external_id || '-';
-    }
+    const functionURL = 'https://api.beta.glia.com/integrations/294f888f-2d10-468f-9636-a2177e5a955d/endpoint';
+    let lastMsgText = '';
+    let isVip = false;
+    let clickCount = 0;
 
-    window.getGliaApi({version: 'v1'}).then(glia => {
-      glia.addBufferedEventListener(glia.EVENTS.VISITOR_STATE, setExternalId);
+    window.getGliaApi({ version: 'v1' }).then(glia => {
+      // 1. Visitor info & VIP detection
+      glia.addBufferedEventListener(glia.EVENTS.VISITOR, visitor => {
+        const extId = visitor?.customAttributes?.external_id || '-';
+        document.getElementById('visitor-external-id').textContent = extId;
+        isVip = Boolean(visitor?.customAttributes?.is_vip);
+      });
+
+      // 2. Track latest visitor message
+      glia.addBufferedEventListener(glia.EVENTS.CHAT_MESSAGES, messages => {
+        if (!Array.isArray(messages)) return;
+        const lastMsg = messages.slice(-1)[0];
+        if (lastMsg && lastMsg.sender?.type === 'visitor') {
+          lastMsgText = typeof lastMsg.content === 'string' ? lastMsg.content : '';
+          document.getElementById('last-message').textContent = lastMsgText || '(empty)';
+        }
+      });
+
+      // 3. Button trigger
+      const btn = document.getElementById('call-api-btn');
+      const clickStatus = document.getElementById('click-status');
+      const resultEl = document.getElementById('result');
+
+      btn.onclick = async () => {
+        clickCount++;
+        clickStatus.textContent = `✓ Button clicked (${clickCount}x) — sending request...`;
+        resultEl.textContent = 'Calling API...';
+
+        try {
+          const authHeaders = await glia.getRequestHeaders();
+          
+          // Ensure content is non-empty string so recipient worker regex won't crash on .match
+          const msgToSend = lastMsgText || "hello";
+
+          const payloadData = {
+            message: msgToSend,
+            text: msgToSend,
+            is_vip: isVip
+          };
+
+          // Send both top-level and stringified payload to guarantee compatibility with Glia function
+          const res = await fetch(functionURL, {
+            method: 'POST',
+            headers: {
+              ...authHeaders,
+              'Content-Type': 'application/json',
+              'Accept': 'application/json, application/vnd.salemove.v1+json'
+            },
+            body: JSON.stringify({
+              ...payloadData,
+              payload: JSON.stringify(payloadData)
+            })
+          });
+
+          const rawText = await res.text();
+          let data;
+          try {
+            data = JSON.parse(rawText);
+          } catch {
+            data = { raw: rawText };
+          }
+
+          if (!res.ok) {
+            throw new Error(`HTTP ${res.status}: ${data.errorMessage || data.message || rawText}`);
+          }
+
+          clickStatus.textContent = `✓ Request completed at ${new Date().toLocaleTimeString()}`;
+          resultEl.textContent = data.message || JSON.stringify(data);
+        } catch (err) {
+          clickStatus.textContent = `✗ Request failed at ${new Date().toLocaleTimeString()}`;
+          resultEl.textContent = 'Error: ' + err.message;
+        }
+      };
     });
   </script>
-
-  <body>
-    <p>Visitor External ID:</p>
-    <p id="visitor-external-id"></p>
-  </tbody>
+</body>
 </html>
