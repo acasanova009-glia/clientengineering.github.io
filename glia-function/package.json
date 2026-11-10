@@ -1,0 +1,12 @@
+{
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
+  },
+
+  "scripts": {
+    "build": "./node_modules/esbuild/bin/esbuild  --bundle --minify --format=esm --outfile=function-out.js --target=es2020 function.js"
+  }
+}
