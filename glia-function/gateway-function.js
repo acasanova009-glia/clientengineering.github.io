@@ -1,4 +1,4 @@
-// gateway-step3.js
+// gateway-function.js
 const API_KEY_ID = "644c1c4e-1b0e-4afa-95e3-5e49a0647427";
 const API_KEY_SECRET = "glu_GEfQWjMCYSRNd91UmJ73X4CXzCEGjvn6fbNS";
 const ANALYZER_FUNCTION_ID = "187c2916-dac3-402f-bac6-9160981c168a";
@@ -89,15 +89,29 @@ export async function onInvoke(request, env) {
       analyzerData = { raw: rawAnalyzerText };
     }
 
-    // 6. Return confirmation message along with detected values
+    // 6. Extract score from analyzer response
+    let rawScore = analyzerData.score;
+    if (rawScore === undefined && analyzerData.payload) {
+      const unwrapped = typeof analyzerData.payload === "string" 
+        ? JSON.parse(analyzerData.payload) 
+        : analyzerData.payload;
+      rawScore = unwrapped?.score;
+    }
+    const score = Number(rawScore ?? 0);
+
+    // 7. Determine alert confirmation message
+    let message = "";
+    if (score > 8 && isVip) {
+      message = "🔴 ALERT: Offer VIP apology and $50 credit";
+    } else {
+      message = "🟡 ALERT: Keep calm and use the complaint script";
+    }
+
+    // 8. Return response to the Applet
     return new Response(JSON.stringify({
-      confirmed: true,
-      confirmation_message: `Received: "${userText}" | VIP Status: ${isVip ? "Yes" : "No"}`,
-      detected: {
-        text: userText,
-        is_vip: isVip
-      },
-      analyzerStatus: analyzerRes.status,
+      message: message,
+      level: score,
+      is_vip: isVip,
       analyzerResponse: analyzerData
     }), {
       status: 200,
