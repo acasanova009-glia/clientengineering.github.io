@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <script type="text/javascript" src="//libs.glia.com/axon.js"></script>
+  </head>
+
+  <script>
+    function setExternalId(visitor) {
+      document.getElementById('visitor-external-id').innerHTML =
+        visitor.customAttributes.external_id || '-';
+    }
+
+    window.getGliaApi({version: 'v1'}).then(glia => {
+      glia.addBufferedEventListener(glia.EVENTS.VISITOR_STATE, setExternalId);
+    });
+  </script>
+
+  <body>
+    <p>Visitor External ID:</p>
+    <p id="visitor-external-id"></p>
+  </tbody>
+</html>
