@@ -1,14 +1,6 @@
 // applet/src/tantrum_analyzer.js
 
 export async function onInvoke(request, env) {
-  const debug = {
-    requestType: typeof request,
-    isRequestInstance: typeof Request !== 'undefined' && request instanceof Request,
-    hasJsonFunc: !!(request && typeof request.json === 'function'),
-    rawReceived: null,
-    extractedText: null
-  };
-
   try {
     let parsedData = null;
 
@@ -19,10 +11,9 @@ export async function onInvoke(request, env) {
       } catch (jsonErr) {
         try {
           const rawText = await request.text();
-          debug.rawTextStream = rawText;
           parsedData = rawText ? JSON.parse(rawText) : null;
-        } catch (textErr) {
-          debug.streamError = textErr.message;
+        } catch {
+          parsedData = null;
         }
       }
     } 
@@ -38,8 +29,6 @@ export async function onInvoke(request, env) {
     else if (request && typeof request === 'object') {
       parsedData = request;
     }
-
-    debug.rawReceived = parsedData;
 
     // 4. Unwrap Glia's browser payload wrapper if present
     let actualPayload = parsedData;
@@ -63,12 +52,10 @@ export async function onInvoke(request, env) {
       textToAnalyze = actualPayload.text || actualPayload.message || '';
     }
 
-    // Secondary fallback to root
+    // Fallback to parsedData root
     if (!textToAnalyze && parsedData && typeof parsedData === 'object') {
       textToAnalyze = parsedData.text || parsedData.message || '';
     }
-
-    debug.extractedText = textToAnalyze;
 
     // 6. Score logic
     const cleanText = String(textToAnalyze || '').toLowerCase().trim();
@@ -76,20 +63,31 @@ export async function onInvoke(request, env) {
     const hasTriggerWord = triggerWords.some((word) => cleanText.includes(word));
     const score = hasTriggerWord ? 9 : 3;
 
-    return Response.json({
+    const responseBody = {
       score: score,
       flagged: hasTriggerWord,
-      analyzedText: cleanText,
-      debug: debug
+      analyzedText: cleanText
+    };
+
+    // 7. Explicit JSON Response (compatible with both Response object & legacy Glia wrapper)
+    return new Response(JSON.stringify(responseBody), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      }
     });
 
   } catch (err) {
-    return Response.json({
+    const errorBody = {
       error: 'Handler crashed',
-      message: err.message,
-      stack: err.stack,
-      debug: debug
-    }, { status: 500 });
+      message: err.message
+    };
+
+    return new Response(JSON.stringify(errorBody), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
 }
-
